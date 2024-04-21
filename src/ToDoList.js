@@ -80,104 +80,104 @@ function TodoList() {
     }));
   };
 
-return (
-  <Container className="p-3">
-    <Row className="mb-5">
-      <Col>
-        <h1 className="text-center">Assignment 3: Brian's ToDo List</h1>
-      </Col>
-    </Row>
-    <Row className="d-flex align-items-start">
-      <Col md={4} className="form-container">
-        <Form onSubmit={(e) => {
-            e.preventDefault();
-            addTodoList(e.target.elements[0].value);
-            e.target.reset();
-          }}>
-          <Form.Group className="mb-3">
-            <Form.Label>New List Name</Form.Label>
-            <Form.Control type="text" required />
-          </Form.Group>
-          <Button variant="primary" type="submit" className="w-100">
-            Add New List
-          </Button>
-        </Form>
+  return (
+    <Container className="p-3">
+      <Row className="mb-5">
+        <Col>
+          <h1 className="text-center">Assignment 3: Brian's ToDo List</h1>
+        </Col>
+      </Row>
+      <Row className="d-flex align-items-start">
+        <Col md={4} className="form-container">
+          <Form onSubmit={(e) => {
+              e.preventDefault();
+              addTodoList(e.target.elements[0].value);
+              e.target.reset();
+            }}>
+            <Form.Group className="mb-3">
+              <Form.Label>New List Name</Form.Label>
+              <Form.Control type="text" required />
+            </Form.Group>
+            <Button variant="primary" type="submit" className="w-100">
+              Add New List
+            </Button>
+          </Form>
 
-        <Form onSubmit={(e) => {
-            e.preventDefault();
-            addTodo({
-              title: e.target.elements.title.value,
-              description: e.target.elements.description.value,
-              dueDate: e.target.elements.dueDate.value
-            }, e.target.elements.list.value);
-            e.target.reset();
-        }}>
-  <Form.Group>
-    <Form.Label>Title</Form.Label>
-    <Form.Control type="text" name="title" required />
-  </Form.Group>
-  <Form.Group>
-    <Form.Label>Description</Form.Label>
-    <Form.Control as="textarea" rows={3} name="description" required />
-  </Form.Group>
-  <Form.Group>
-    <Form.Label>Due Date</Form.Label>
-    <Form.Control type="date" name="dueDate" required />
-  </Form.Group>
-  <Form.Group>
-    <Form.Label>List</Form.Label>
-    <Form.Control as="select" name="list" required>
-      {todoLists.map((list, index) => (
-        <option key={index} value={list.name}>{list.name}</option>
-      ))}
-    </Form.Control>
-  </Form.Group>
-  <Button variant="primary" type="submit" className="w-100">Add Todo</Button>
-</Form>
-      </Col>
-      <Col md={8}>
-        <Tab.Container id="list-tabs" defaultActiveKey="All Items">
-          <Row>
-            <Col sm={3}>
-              <Nav variant="pills" className="flex-column">
+          <Form onSubmit={(e) => {
+                e.preventDefault();
+                addTodo({
+                  title: e.target.elements.title.value,
+                  description: e.target.elements.description.value,
+                  dueDate: e.target.elements.dueDate.value
+                }, e.target.elements.list.value);
+                e.target.reset();
+              }}>
+            <Form.Group>
+              <Form.Label>Title</Form.Label>
+              <Form.Control type="text" name="title" required />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Description</Form.Label>
+              <Form.Control as="textarea" rows={3} name="description" required />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Due Date</Form.Label>
+              <Form.Control type="date" name="dueDate" required />
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>List</Form.Label>
+              <Form.Control as="select" name="list" required>
                 {todoLists.map((list, index) => (
-                  <Nav.Item key={index}>
-                    <Nav.Link eventKey={list.name}>{list.name}</Nav.Link>
-                  </Nav.Item>
+                  <option key={index} value={list.name}>{list.name}</option>
                 ))}
-              </Nav>
-            </Col>
-            <Col sm={9}>
-              <Tab.Content>
-                {todoLists.map((list, index) => (
-                  <Tab.Pane eventKey={list.name} key={index}>
-                    {list.todos.map((todo, index) => (
-                      <ListGroup.Item key={index} variant={getVariant(todo.dueDate)}>
-                        <h4 contentEditable>{todo.title}</h4>
-                        <p contentEditable>{todo.description}</p>
-                        <input type="date" defaultValue={todo.dueDate} className="p-2" />
-                        <Dropdown onSelect={(newListName) => moveTodo(todo, newListName)} className="float-right">
-                          <Dropdown.Toggle variant="success" id={`dropdown-basic${index}`}>
-                            Move to...
-                          </Dropdown.Toggle>
-                          <Dropdown.Menu>
-                            {todoLists.map((list, listIndex) => (
-                              <Dropdown.Item eventKey={list.name} key={listIndex}>{list.name}</Dropdown.Item>
-                            ))}
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </ListGroup.Item>
-                    ))}
-                  </Tab.Pane>
-                ))}
-              </Tab.Content>
-            </Col>
-          </Row>
-        </Tab.Container>
-      </Col>
-    </Row>
-  </Container>
-);
+              </Form.Control>
+            </Form.Group>
+            <Button variant="primary" type="submit" className="w-100">Add Todo</Button>
+          </Form>
+        </Col>
+        <Col md={8}>
+          <Tab.Container id="list-tabs" defaultActiveKey="All Items">
+            <Row>
+              <Col sm={3}>
+                <Nav variant="pills" className="flex-column">
+                  {todoLists.map((list, index) => (
+                    <Nav.Item key={index}>
+                      <Nav.Link eventKey={list.name}>{list.name}</Nav.Link>
+                    </Nav.Item>
+                  ))}
+                </Nav>
+              </Col>
+              <Col sm={9}>
+                <Tab.Content>
+                  {todoLists.map((list, index) => (
+                    <Tab.Pane eventKey={list.name} key={index}>
+                      {list.todos.map((todo, index) => (
+                        <ListGroup.Item key={index} variant={getVariant(todo.dueDate)}>
+                          <h4 contentEditable>{todo.title}</h4>
+                          <p contentEditable>{todo.description}</p>
+                          <input type="date" defaultValue={todo.dueDate} className="p-2" />
+                          <Dropdown onSelect={(newListName) => moveTodo(todo, newListName)} className="float-right">
+                            <Dropdown.Toggle variant="success" id={`dropdown-basic${index}`}>
+                              Move to...
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                              {todoLists.map((list, listIndex) => (
+                                <Dropdown.Item eventKey={list.name} key={listIndex}>{list.name}</Dropdown.Item>
+                              ))}
+                            </Dropdown.Menu>
+                          </Dropdown>
+                        </ListGroup.Item>
+                      ))}
+                    </Tab.Pane>
+                  ))}
+                </Tab.Content>
+              </Col>
+            </Row>
+          </Tab.Container>
+        </Col>
+      </Row>
+    </Container>
+  );
 
 }
 
