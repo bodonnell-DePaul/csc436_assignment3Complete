@@ -33,9 +33,9 @@ function TodoList() {
     { name: 'All Items', todos: start_todos},
   ]);
 
-  const [selectedList, setSelectedList] = useState('All Items');
+  // const [selectedList, setSelectedList] = useState('All Items');
 
-  const [todos, setTodos] = useState(start_todos);
+  // const [todos, setTodos] = useState(start_todos);
   const getVariant = (dueDate) => {
     const due = new Date(dueDate);
     const now = new Date();
