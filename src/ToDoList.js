@@ -4,33 +4,33 @@ import "./ToDoList.css"
 
 function TodoList() {
   
-  const start_todos = [
+  const todos = [
     { title: 'Todo 1', description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
     eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
     minim veniam, quis nostrud exercitation ullamco laboris nisi ut
     aliquip ex ea commodo consequat. Duis aute irure dolor in
     reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
     pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-    culpa qui officia deserunt mollit anim id est laborum.`, dueDate: '2024-05-03' },
+    culpa qui officia deserunt mollit anim id est laborum.`, dueDate: '2024-10-12' },
 
     { title: 'Todo 2', description: `Sed auctor nunc nec nisi ultrices, in molestie nibh mattis. 
     Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. 
     Suspendisse potenti. Nullam nec nibh nibh. Nullam quis nisl nec nunc congue mollis. 
-    Vivamus nec nisi nec nunc mattis molestie. Sed auctor nunc nec nisi ultrices, in molestie nibh mattis.`, dueDate: '2024-04-26' },
+    Vivamus nec nisi nec nunc mattis molestie. Sed auctor nunc nec nisi ultrices, in molestie nibh mattis.`, dueDate: '2024-10-14' },
 
     { title: 'Todo 3', description: `Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. 
     Suspendisse potenti. Nullam nec nibh nibh. Nullam quis nisl nec nunc congue mollis. Vivamus nec nisi nec nunc mattis molestie. 
     Sed auctor nunc nec nisi ultrices, in molestie nibh mattis. Pellentesque habitant morbi tristique 
-    senectus et netus et malesuada fames ac turpis egestas.`, dueDate: '2024-04-23' },
+    senectus et netus et malesuada fames ac turpis egestas.`, dueDate: '2024-10-17' },
 
     { title: 'Todo 4', description: `Suspendisse potenti. Nullam nec nibh nibh. Nullam quis nisl nec nunc congue mollis. 
     Vivamus nec nisi nec nunc mattis molestie. Sed auctor nunc nec nisi ultrices, in molestie nibh mattis. 
     Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse potenti. 
-    Nullam nec nibh nibh. Nullam quis nisl nec nunc congue mollis. `, dueDate: '2024-04-21' },
-  ];
+    Nullam nec nibh nibh. Nullam quis nisl nec nunc congue mollis. `, dueDate: '2024-10-24' },
+  ]; 
 
   const [todoLists, setTodoLists] = useState([
-    { name: 'All Items', todos: start_todos},
+    { name: 'All Items', todos: todos},
   ]);
 
   // const [selectedList, setSelectedList] = useState('All Items');
@@ -43,9 +43,9 @@ function TodoList() {
 
     if (diffDays < 2) {
       return 'danger';
-    } else if (diffDays < 4) {
+    } else if (diffDays <= 4) {
       return 'warning';
-    } else if (diffDays < 7) {
+    } else if (diffDays <= 7) {
       return 'success';
     } else {
       return 'primary';
@@ -68,7 +68,13 @@ function TodoList() {
 
   const moveTodo = (todoToMove, newListName) => {
     setTodoLists(todoLists.map(list => {
-      if (list.name === newListName) {
+      if (list.name === 'All Items') {
+        // "All Items" list should always contain all todos
+        return {
+          ...list,
+          todos: todoLists.reduce((acc, currentList) => [...acc, ...currentList.todos], [])
+        };
+      } else if (list.name === newListName) {
         // Add the todo to the new list
         return { ...list, todos: [...list.todos, todoToMove] };
       } else if (list.todos.includes(todoToMove)) {
@@ -80,11 +86,12 @@ function TodoList() {
     }));
   };
 
+
   return (
     <Container className="p-3">
       <Row className="mb-5">
         <Col>
-          <h1 className="text-center">Assignment 3: Brian's ToDo List</h1>
+          <h1 className="text-center">Assignment 3: ToDo List</h1>
         </Col>
       </Row>
       <Row className="d-flex align-items-start">
@@ -96,7 +103,7 @@ function TodoList() {
             }}>
             <Form.Group className="mb-3">
               <Form.Label>New List Name</Form.Label>
-              <Form.Control type="text" required />
+              <Form.Control type="text" required placeholder='Add new list' />
             </Form.Group>
             <Button variant="primary" type="submit" className="w-100">
               Add New List
@@ -112,27 +119,27 @@ function TodoList() {
                 }, e.target.elements.list.value);
                 e.target.reset();
               }}>
-            <Form.Group>
-              <Form.Label>Title</Form.Label>
-              <Form.Control type="text" name="title" required />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Description</Form.Label>
-              <Form.Control as="textarea" rows={3} name="description" required />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Due Date</Form.Label>
-              <Form.Control type="date" name="dueDate" required />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>List</Form.Label>
-              <Form.Control as="select" name="list" required>
+              <Form.Group>
+                <Form.Label htmlFor="title">Title</Form.Label>
+                <Form.Control type="text" id="title" name="title" placeholder='Add todo item' required />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label htmlFor="description">Description</Form.Label>
+                <Form.Control as="textarea" rows={3} id="description" name="description" required />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label htmlFor="dueDate">Due Date</Form.Label>
+                <Form.Control type="date" id="dueDate" name="dueDate" required />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label htmlFor="list">List</Form.Label>
+                <Form.Control as="select" id="list" name="list" required>
                 {todoLists.map((list, index) => (
                   <option key={index} value={list.name}>{list.name}</option>
                 ))}
-              </Form.Control>
+                </Form.Control>
             </Form.Group>
-            <Button variant="primary" type="submit" className="w-100">Add Todo</Button>
+            <Button variant="primary" type="submit" className="w-100">Add Todo Item</Button>
           </Form>
         </Col>
         <Col md={8}>
